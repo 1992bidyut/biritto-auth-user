@@ -6,7 +6,12 @@ const asyncHandler = require('../middleware/async');
 // @route   GET /api/v1/users
 // @access  Private/Admin
 exports.getUsers = asyncHandler(async (req, res, next) => {
-  res.status(200).json(res.advancedResults);
+  const users = await User.find().select('-password'); // Exclude passwords
+
+  res.status(200).json({
+    success: true,
+    data: users
+  });
 });
 
 // @desc    Get single user
