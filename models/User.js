@@ -1,39 +1,8 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const crypto = require('crypto'); // Add this line at the top
 
-/**
- * @swagger
- * components:
- *   schemas:
- *     User:
- *       type: object
- *       required:
- *         - name
- *         - email
- *         - password
- *       properties:
- *         id:
- *           type: string
- *           description: The auto-generated id
- *         name:
- *           type: string
- *         email:
- *           type: string
- *           format: email
- *         role:
- *           type: string
- *           enum: [user, publisher, admin]
- *           default: user
- *         createdAt:
- *           type: string
- *           format: date-time
- *       example:
- *         id: 65a8f27c1e4e8a0012e5f7d2
- *         name: John Doe
- *         email: john@example.com
- *         role: user
- *         createdAt: 2024-01-18T08:32:28.000Z
- */
+
 
 const UserSchema = new mongoose.Schema({
   name: {
@@ -56,6 +25,14 @@ const UserSchema = new mongoose.Schema({
     required: [true, 'Please add a password'],
     minlength: 6,
     select: false
+  },
+  passwordResetToken:{
+    type: String,
+    require: [false],
+  },
+  passwordResetExpires:{
+    type: Date,
+    require: [false],
   },
   role: {
     type: String,
@@ -179,6 +156,22 @@ UserSchema.methods.getSignedJwtToken = function() {
 // Match user entered password to hashed password in database
 UserSchema.methods.matchPassword = async function(enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
+};
+
+UserSchema.methods.createPasswordResetToken = function() {
+  // 1) Generate random token
+  const resetToken = crypto.randomBytes(32).toString('hex');
+  
+  // 2) Hash the token and save to database
+  this.resetPasswordToken = crypto
+    .createHash('sha256')
+    .update(resetToken)
+    .digest('hex');
+    
+  this.resetPasswordExpire = Date.now() + 10 * 60 * 1000; // 10 minutes
+  
+  // 3) Return plain token (not hashed)
+  return resetToken;
 };
 
 module.exports = mongoose.model('User', UserSchema);

@@ -8,7 +8,7 @@ const fs = require('fs');
 // @route   GET /api/v1/profile/me
 // @access  Private
 exports.getMyProfile = asyncHandler(async (req, res, next) => {
-  const user = await User.findById(req.user.id).populate('posts');
+  const user = await User.findById(req.user.id);
 
   if (!user) {
     return next(new ErrorResponse('User not found', 404));

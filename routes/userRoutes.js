@@ -13,13 +13,7 @@ const router = express.Router();
 router.use(protect);
 router.use(restrictTo('admin'));
 
-router.route('/')
-  .get(getUsers)
-  .post(createUser);
-
-router.route('/:id')
-  .get(getUser)
-  .put(updateUser)
-  .delete(deleteUser);
+router.route('/').get(getUsers).post(createUser);
+router.route('/:id').get(getUser).put(updateUser).delete(deleteUser);
 
 module.exports = router;
