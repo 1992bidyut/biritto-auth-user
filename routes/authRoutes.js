@@ -28,31 +28,22 @@ const router = express.Router();
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             required:
- *               - name
- *               - email
- *               - password
- *             properties:
- *               name:
- *                 type: string
- *               email:
- *                 type: string
- *                 format: email
- *               password:
- *                 type: string
- *                 format: password
- *                 minLength: 6
- *             example:
- *               name: John Doe
- *               email: john@example.com
- *               password: password123
+ *             $ref: '#/components/schemas/RegisterUserRequest'
  *     responses:
  *       201:
  *         description: User created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/RegisterUserResponse'
  *       400:
  *         description: Bad request - validation error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
  */
+
 router.post('/register', register);
 /**
  * @swagger
@@ -65,20 +56,7 @@ router.post('/register', register);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             required:
- *               - email
- *               - password
- *             properties:
- *               email:
- *                 type: string
- *                 format: email
- *               password:
- *                 type: string
- *                 format: password
- *             example:
- *               email: john@example.com
- *               password: password123
+ *             $ref: '#/components/schemas/UserLogin'
  *     responses:
  *       200:
  *         description: Successful login
@@ -89,6 +67,8 @@ router.post('/register', register);
  *               properties:
  *                 token:
  *                   type: string
+ *                  data:
+ *                       $ref: '#/components/schemas/UserSchemas'
  *       401:
  *         description: Invalid credentials
  */
