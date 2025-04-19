@@ -31,6 +31,14 @@
 >sudo apt-get update
 >sudo apt-get install jenkins -y
 
+# Retrieve the initial admin password
+> sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+
+# Get access to the Jenkins
+http://[your server addredd/ip]:8080
+# Note
+If you are using the EC2 please check and config the Inbound Rouls from Security Group 
+
 # Jenkins permission
 If you face issue access permission. Run comands below,
 > sudo usermod  -a -G docker jenkins
@@ -39,4 +47,5 @@ If you face issue access permission. Run comands below,
 
 > Systemctl restart jenkins
 
-test
+# Note
+If you are using the EC2 and trying to access MongoDB from cloud.mongodb.com please check and config the Outbound Rouls from Security Group and add the EC2 IP into the mongodb white list from Network Access.
