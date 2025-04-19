@@ -13,3 +13,5 @@ If you face issue access permission. Run comands below,
 > sudo usermod  -a -G jenkins  $USER
 
 > Systemctl restart jenkins
+
+test
