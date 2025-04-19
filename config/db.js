@@ -2,7 +2,14 @@ const mongoose = require('mongoose');
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI, {
+    const MONGO_URI = process.env.MONGO_URI
+    const MONGO_USER = process.env.MONGO_USER
+    const MONGO_PASSWORD = process.env.MONGO_PASSWORD
+    const MONGO_DB = process.env.MONGO_DB
+
+    const DB_URI = `mongodb+srv://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_URI}/`
+    await mongoose.connect(DB_URI, {
+      dbName: MONGO_DB, 
       useNewUrlParser: true,
       useUnifiedTopology: true,
       serverSelectionTimeoutMS: 5000, // Timeout after 5s instead of 30s
