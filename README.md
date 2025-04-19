@@ -6,4 +6,10 @@
 
 >npm install --save-dev nodemon
 
-change
+# Jenkins permission
+If you face issue access permission. Run comands below,
+> sudo usermod  -a -G docker jenkins
+
+> sudo usermod  -a -G jenkins  $USER
+
+> Systemctl restart jenkins
