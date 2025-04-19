@@ -10,6 +10,9 @@ const hpp = require('hpp');
 const cors = require('cors');
 const errorHandler = require('./middleware/error');
 const connectDB = require('./config/db');
+const { logger, morganMiddleware } = require('./config/logger');
+const { requestLogger, errorLogger } = require('./middleware/loggerMiddleware');
+const morgan = require('morgan')
 
 
 // Connect to database
@@ -21,6 +24,7 @@ const users = require('./routes/userRoutes');
 const profile = require('./routes/profileRoutes');
 
 const app = express();
+app.use(requestLogger);
 
 // Body parser
 app.use(express.json());
@@ -56,22 +60,26 @@ app.use(cors());
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Morgan HTTP request logging
+app.use(morgan('combined', { stream: morganMiddleware }));
 // Mount routers
 app.use('/api/v1/auth', auth);
 app.use('/api/v1/users', users);
 app.use('/api/v1/profile', profile);
-
+// Add this before your error handler middleware
+app.use(errorLogger);
 // Error handler middleware
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 3000;
-
+// const PORT = process.env.PORT || 3000;
 // const server = app.listen(
 //   PORT,
 //   console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow)
 // );
+
 const setupSwagger = require('./config/swagger');
 setupSwagger(app);
+
 // Handle unhandled promise rejections
 process.on('unhandledRejection', (err, promise) => {
   console.log(`Error: ${err.message}`.red);
