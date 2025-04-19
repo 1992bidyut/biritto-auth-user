@@ -17,6 +17,7 @@ const router = express.Router();
  *   description: User authentication
  */
 
+
 /**
  * @swagger
  * /api/v1/auth/register:
@@ -43,8 +44,9 @@ const router = express.Router();
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  */
-
 router.post('/register', register);
+
+
 /**
  * @swagger
  * /api/v1/auth/login:
@@ -63,16 +65,17 @@ router.post('/register', register);
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 token:
- *                   type: string
- *                  data:
- *                       $ref: '#/components/schemas/UserSchemas'
+ *               $ref: '#/components/schemas/LoginResponse'
+ *                       
  *       401:
- *         description: Invalid credentials
+ *          description: Successful login
+ *          content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/AuthErrorResponse'
  */
 router.post('/login', login);
+
 router.get('/logout', logout);
 router.post('/forgotpassword', forgotPassword);
 router.patch('/resetpassword/:token', resetPassword);

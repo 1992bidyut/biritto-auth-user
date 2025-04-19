@@ -35,6 +35,7 @@ const router = express.Router();
  *         description: Unauthorized
  */
 router.route('/me').get(protect, getMyProfile);
+
 router.route('/').put(protect, updateProfile);
 router.route('/education').put(protect, addEducation);
 router.route('/education/:edu_id').delete(protect, deleteEducation);
