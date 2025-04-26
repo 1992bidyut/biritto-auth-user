@@ -30,7 +30,7 @@ exports.updateProfile = asyncHandler(async (req, res, next) => {
     'profile.website': req.body.website,
     'profile.location': req.body.location,
     'profile.social': req.body.social,
-    'profile.skills': req.body.skills
+    'profile.skills': req.body.skills,
   };
 
   const user = await User.findByIdAndUpdate(req.user.id, fieldsToUpdate, {
@@ -66,7 +66,7 @@ exports.addEducation = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
-    data: user.profile.education
+    data: user.profile
   });
 });
 
@@ -122,15 +122,15 @@ exports.uploadProfilePhoto = asyncHandler(async (req, res, next) => {
 
   // Create custom filename
   file.name = `photo_${req.user.id}${path.parse(file.name).ext}`;
-
-  file.mv(`${process.env.FILE_UPLOAD_PATH}/${file.name}`, async err => {
+  console.log('file.name: ',file.name)
+  file.mv(`public/upload/${file.name}`, async err => {
     if (err) {
       console.error(err);
       return next(new ErrorResponse('Problem with file upload', 500));
     }
 
     await User.findByIdAndUpdate(req.user.id, {
-      'profile.profilePhoto': file.name
+      'profile.profilePhoto': `/public/upload/${file.name}`
     });
 
     res.status(200).json({

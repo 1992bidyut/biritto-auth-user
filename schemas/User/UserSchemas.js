@@ -1,3 +1,4 @@
+const profile = require('./UserProfile')
 module.exports= {
     UserSchemas: {
         type: 'object',
@@ -22,16 +23,7 @@ module.exports= {
             },
             profile: {
                 type: 'object',
-                properties: {
-                bio: {
-                    type: 'string',
-                    example: 'Software developer'
-                },
-                profileImage: {
-                    type: 'string',
-                    example: 'profile.jpg'
-                }
-                }
+                properties: profile.UserProfile
             },
             createdAt: {
                 type: 'string',

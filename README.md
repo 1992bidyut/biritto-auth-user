@@ -47,5 +47,10 @@ If you face issue access permission. Run comands below,
 
 > Systemctl restart jenkins
 
+# Auto Container build and safely remove Old container
+> docker ps -q | grep -v "container-name" | xargs -r docker rm -f
+
+> 
+
 # Note
 If you are using the EC2 and trying to access MongoDB from cloud.mongodb.com please check and config the Outbound Rouls from Security Group and add the EC2 IP into the mongodb white list from Network Access.

@@ -1,4 +1,4 @@
-const UserData = require('../UserSchemas')
+const UserData = require('./UserSchemas')
 module.exports = {
     LoginResponse:{
         type: 'object',
